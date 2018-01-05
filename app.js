@@ -1,6 +1,7 @@
 import React from 'react';
 import TextArea from './TextArea.js'
 import AppStyle from "./AppStyle.css";
+
 export default class App extends React.Component {
 	render() {
 		return (<div>
