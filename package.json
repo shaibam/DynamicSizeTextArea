@@ -5,9 +5,7 @@
   "main": "index.js",
   "scripts": {
     "server": "webpack-dev-server --progress -colors",
-    "build": "webpack -p --progress -colors",
-    "storybook": "start-storybook -p 6006",
-    "build-storybook": "build-storybook"
+    "build": "webpack -p --progress -colors"
   },
   "author": "",
   "license": "ISC",
@@ -27,9 +25,6 @@
     "postcss-nested": "^1.0.0",
     "style-loader": "^0.14.1",
     "webpack": "^1.12.14",
-    "webpack-dev-server": "^1.14.1",
-    "@storybook/react": "^3.3.3",
-    "@storybook/addon-actions": "^3.3.3",
-    "@storybook/addon-links": "^3.3.3"
+    "webpack-dev-server": "^1.14.1"
   }
 }
