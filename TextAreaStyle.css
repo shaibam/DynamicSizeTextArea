@@ -1,0 +1,18 @@
+
+.maxRowReached {
+    padding-bottom: 0px;
+}
+.minRowReached {
+    padding-bottom: 1.2em;
+}
+.textArea:focus {
+    box-shadow: 0px 1px orange;
+}
+.textArea{
+    color:white;
+    border: 0 none white;
+    overflow: hidden !important;
+    outline: none;
+    background-color: rgb(54, 53, 53);
+    box-shadow: 0px 1px white;
+}
