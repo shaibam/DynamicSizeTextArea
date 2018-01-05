@@ -32,9 +32,7 @@ export default class TextArea extends React.Component {
 
 	onKeyPress = (e) => {
 		var target = e.currentTarget;
-		//console.log(e.key)
-		//e.preventDefault();
-		
+
 		setTimeout(() => {
 			//in case the text value exceeds the max number of rows, trim it back to previous text value
 			if (this.state.maxRowReached && target.scrollTop >0) {
