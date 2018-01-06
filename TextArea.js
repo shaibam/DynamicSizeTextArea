@@ -13,33 +13,37 @@ export default class TextArea extends React.Component {
 		this.state = {
 			rows: 1,
 			maxRowReached: false,
-			textValue: '',
+			textValue:{current:'',previous:''},
 			style: {
 				resize: "none",
 				overflow: "hidden",
-				height: "auto"
+				height: "auto",
+				width:"12px"
 			}
 		}
 	}
 
-	onChange = (e) => {
+	onInput = (e) => {
 		//in any change in text value set css height to "auto"
-
 		var state = { ...this.state };
+		var textarea = this.refs.textarea;
+		state.textValue.current = textarea.value;
 		state.style = { ...state.style, height: "auto" };
 		this.setState(state);
 	}
 
 	onKeyPress = (e) => {
 		var target = e.currentTarget;
-
-		setTimeout(() => {
+		if (this.state.maxRowReached && target.scrollTop >0) {
+			e.preventDefault();
+		} 
+		/*setTimeout(() => {
 			//in case the text value exceeds the max number of rows, trim it back to previous text value
 			if (this.state.maxRowReached && target.scrollTop >0) {
 				target.value = this.state.textValue;
 			}
 			this.state.textValue = target.value;
-		}, 0)
+		}, 0)*/
 	}
 
 	render() {
@@ -49,7 +53,7 @@ export default class TextArea extends React.Component {
 				ref="textarea"
 				style={this.state.style}
 				rows={this.state.rows}
-				onChange={this.onChange}
+				onInput={this.onInput}
 				onKeyPress={this.onKeyPress}>
 			</textarea>
 		</div>
@@ -70,6 +74,21 @@ export default class TextArea extends React.Component {
 
 	shouldComponentUpdate(nextProps, nextState) {
 		//dont render if height of textarea hasn't changed
+		var state= {...this.state};
+		var textarea = this.refs.textarea;
+		var scrollHeight = textarea.scrollHeight;
+		var scrollTop = textarea.scrollTop;
+		
+		//var boundingBox = textarea.getBoundingClientRect();
+		if (scrollHeight > this.maxHeight) {
+			//console.log('reached scrollHeight',scrollHeight,'this.maxHeight',	this.maxHeight,'this.heightOfRow',this.heightOfRow);
+			//if (scrollHeight>this.maxHeight+this.heightOfRow) {
+				//console.log('nextState.textValue',nextState.textValue.current,'state.textValue.current',state.textValue.current,'state.textValue.previous',state.textValue.previous,scrollHeight);
+				
+			//}
+			//if (scrollHeight>this.maxHeight+this.heightOfRow) 
+			//	state.textValue = textarea.value;
+		}
 		if (this.state.style.height == nextState.style.height) return false
 		return true
 	}
@@ -78,9 +97,13 @@ export default class TextArea extends React.Component {
 		//after text area received css value - auto, check the textarea's scroll height and apply it as the textarea's height value
 		//(according to min and max row values)
 		var state = { ...this.state };
-		var scrollHeight = this.refs.textarea.scrollHeight;
-		
+		var textarea = this.refs.textarea;
+		var scrollHeight = textarea.scrollHeight;
+		//console.log('scrollHeight',scrollHeight);
+		//debugger;
 		if (scrollHeight > this.maxHeight) {
+			if (scrollHeight>this.maxHeight+this.heightOfRow)
+				textarea.value = state.textValue.current = state.textValue.previous;
 			scrollHeight = this.maxHeight;
 			state.maxRowReached = true;
 		} else {
@@ -88,7 +111,11 @@ export default class TextArea extends React.Component {
 			state.maxRowReached = false;
 		}
 		
+		/*if (this.state.maxRowReached) {
+			console.log('scrollHeight',scrollHeight,'textarea.scrollHeight',textarea.scrollHeight,'state.style.height',state.style.height,'this.maxHeight',this.maxHeight);
+		}*/
 		state.style = { ...state.style, height: scrollHeight + "px" };
+		state.textValue.previous = state.textValue.current;
 		this.setState(state);
 	}
 }
