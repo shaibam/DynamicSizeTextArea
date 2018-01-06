@@ -25,7 +25,7 @@ export default class TextArea extends React.Component {
 		//console.log('onHasChanged', height);
 		var state = { ...this.state };
 		var style = { ...state.style };
-		setTimeout(() => {
+		//setTimeout(() => {
 			if (height < this.props.maxRows * this.rowHeight) {
 				style.height = height;
 				//state.pushTopBy = '0px';
@@ -37,11 +37,15 @@ export default class TextArea extends React.Component {
 			state.style = style;
 			//console.log('state',state);
 			this.setState(state);
-		}, 0)
+			setTimeout(()=>{
+				this.refs.me.scrollTop=0;
+			},0)
+
+		//}, 0)
 	}
 	render() {
 		console.log('render', this.state.pushTopBy);
-		return <div style={this.state.style}>
+		return <div ref="me" style={this.state.style}>
 			<DummyText minRows={this.props.minRows} maxRows={this.props.maxRows} onHasChaged={this.onHasChanged} topBy={this.state.pushTopBy}></DummyText>
 		</div>
 	}

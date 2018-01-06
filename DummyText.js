@@ -45,6 +45,7 @@ export default class DummyText extends React.Component {
         var style ={...state.style}
         //console.log(style)
         style.height = this.refs.textarea.scrollHeight;
+        //style.marginTop=style.height;
         state.style=style;
         this.setState(state);
     }
